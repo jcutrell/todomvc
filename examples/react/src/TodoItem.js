@@ -1,43 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
+import React from "react";
+import ReactDOM from "react-dom";
+import classNames from "classnames";
 
 var ESCAPE_KEY = 27;
 var ENTER_KEY = 13;
 
 const TodoItem = React.createClass({
-	handleSubmit: function (event) {
+	handleSubmit: function(event) {
 		var val = this.state.editText.trim();
 		if (val) {
 			this.props.onSave(val);
-			this.setState({editText: val});
+			this.setState({ editText: val });
 		} else {
 			this.props.onDestroy();
 		}
 	},
 
-	handleEdit: function () {
+	handleEdit: function() {
 		this.props.onEdit();
-		this.setState({editText: this.props.todo.title});
+		this.setState({ editText: this.props.todo.title });
 	},
 
-	handleKeyDown: function (event) {
+	handleKeyDown: function(event) {
 		if (event.which === ESCAPE_KEY) {
-			this.setState({editText: this.props.todo.title});
+			this.setState({ editText: this.props.todo.title });
 			this.props.onCancel(event);
 		} else if (event.which === ENTER_KEY) {
 			this.handleSubmit(event);
 		}
 	},
 
-	handleChange: function (event) {
+	handleChange: function(event) {
 		if (this.props.editing) {
-			this.setState({editText: event.target.value});
+			this.setState({ editText: event.target.value });
 		}
 	},
 
-	getInitialState: function () {
-		return {editText: this.props.todo.title};
+	getInitialState: function() {
+		return { editText: this.props.todo.title };
 	},
 
 	/**
@@ -47,7 +47,7 @@ const TodoItem = React.createClass({
 	 * just use it as an example of how little code it takes to get an order
 	 * of magnitude performance improvement.
 	 */
-	shouldComponentUpdate: function (nextProps, nextState) {
+	shouldComponentUpdate: function(nextProps, nextState) {
 		return (
 			nextProps.todo !== this.props.todo ||
 			nextProps.editing !== this.props.editing ||
@@ -61,7 +61,7 @@ const TodoItem = React.createClass({
 	 * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
 	 * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
 	 */
-	componentDidUpdate: function (prevProps) {
+	componentDidUpdate: function(prevProps) {
 		if (!prevProps.editing && this.props.editing) {
 			var node = ReactDOM.findDOMNode(this.refs.editField);
 			node.focus();
@@ -69,12 +69,14 @@ const TodoItem = React.createClass({
 		}
 	},
 
-	render: function () {
+	render: function() {
 		return (
-			<li className={classNames({
-				completed: this.props.todo.completed,
-				editing: this.props.editing
-			})}>
+			<li
+				className={classNames({
+					completed: this.props.todo.completed,
+					editing: this.props.editing
+				})}
+			>
 				<div className="view">
 					<input
 						className="toggle"
@@ -82,9 +84,7 @@ const TodoItem = React.createClass({
 						checked={this.props.todo.completed}
 						onChange={this.props.onToggle}
 					/>
-					<label onDoubleClick={this.handleEdit}>
-						{this.props.todo.title}
-					</label>
+					<label onDoubleClick={this.handleEdit}>{this.props.todo.title}</label>
 					<button className="destroy" onClick={this.props.onDestroy} />
 				</div>
 				<input
