@@ -14,8 +14,8 @@ class App extends Component {
 		newTodo: ""
 	};
 	componentDidMount() {
-		var setState = this.setState;
-		var router = Router({
+		const setState = this.setState;
+		const router = Router({
 			"/": setState.bind(this, { nowShowing: ALL_TODOS }),
 			"/active": setState.bind(this, { nowShowing: ACTIVE_TODOS }),
 			"/completed": setState.bind(this, { nowShowing: COMPLETED_TODOS })
@@ -32,7 +32,7 @@ class App extends Component {
 
 		event.preventDefault();
 
-		var val = this.state.newTodo.trim();
+		const val = this.state.newTodo.trim();
 
 		if (val) {
 			this.props.model.addTodo(val);
@@ -40,7 +40,7 @@ class App extends Component {
 		}
 	}
 	toggleAll(event) {
-		var checked = event.target.checked;
+		const checked = event.target.checked;
 		this.props.model.toggleAll(checked);
 	}
 	toggle(todoToToggle) {
@@ -63,11 +63,12 @@ class App extends Component {
 		this.props.model.clearCompleted();
 	}
 	render() {
-		var footer;
-		var main;
-		var todos = this.props.model.todos;
+		let footer;
+		let main;
+    console.log(this.props)
+		const todos = this.props.model.todos;
 
-		var shownTodos = todos.filter(function(todo) {
+		const shownTodos = todos.filter(function(todo) {
 			switch (this.state.nowShowing) {
 				case ACTIVE_TODOS:
 					return !todo.completed;
@@ -78,7 +79,7 @@ class App extends Component {
 			}
 		}, this);
 
-		var todoItems = shownTodos.map(function(todo) {
+		const todoItems = shownTodos.map(function(todo) {
 			return (
 				<TodoItem
 					key={todo.id}
@@ -93,11 +94,11 @@ class App extends Component {
 			);
 		}, this);
 
-		var activeTodoCount = todos.reduce(function(accum, todo) {
+		const activeTodoCount = todos.reduce(function(accum, todo) {
 			return todo.completed ? accum : accum + 1;
 		}, 0);
 
-		var completedCount = todos.length - activeTodoCount;
+		const completedCount = todos.length - activeTodoCount;
 
 		if (activeTodoCount || completedCount) {
 			footer = (
